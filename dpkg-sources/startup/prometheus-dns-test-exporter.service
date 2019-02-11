@@ -1,0 +1,15 @@
+[Unit]
+Description=Prometheus Exporter for DNS tests
+Documentation=https://github.com/Halytskyi/prometheus-dns_test_exporter
+
+[Service]
+Restart=always
+User=prometheus
+EnvironmentFile=/etc/default/prometheus-dns-test-exporter
+ExecStart=/usr/bin/prometheus-dns-test-exporter $ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target

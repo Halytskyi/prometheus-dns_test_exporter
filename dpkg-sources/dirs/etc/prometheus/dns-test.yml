@@ -1,0 +1,15 @@
+---
+#listen_address: "127.0.0.1:9702" # Default: ":9701"
+#metrics_path: "/newpath" # Default: "/metrics"
+#histogram_buckets: [0.05, 0.1, 0.15, 0.2, 0.25] # Default: "[0.005, 0.01, 0.015, 0.02, 0.025]"
+records:
+  test_record:
+    #timeout: "3s" # Default "5s"
+    dns_server: 8.8.8.8
+    record_name: google.com
+    record_type: A
+    #transport_protocol: udp # Default "udp"
+    #verify_rcodes: [NOERROR] # Default "NOERROR"
+    verify_answer_rrs:
+      fail_if_not_matches_regexp:
+        - "google.com.\t.*"
