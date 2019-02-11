@@ -24,9 +24,11 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/log"
-	"github.com/prometheus/common/version"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
+
+var Version string
+var BuildDate string
 
 func dnsTestHandler(w http.ResponseWriter, r *http.Request, c *Config, dnsQueryDurationHistogram *prometheus.HistogramVec) {
 	recordName := r.URL.Query().Get("record")
@@ -70,12 +72,12 @@ func main() {
 		configFile    = kingpin.Flag("config.file", "DNS Test Exporter configuration file.").Default("dns-test.yml").String()
 	)
 	log.AddFlags(kingpin.CommandLine)
-	kingpin.Version(version.Print("dns_test_exporter"))
+	kingpin.Version(Version)
 	kingpin.HelpFlag.Short('h')
 	kingpin.Parse()
 
-	log.Infoln("Starting dns-test_exporter", version.Info())
-	log.Infoln("Build context", version.BuildContext())
+	log.Infoln("Starting dns-test_exporter, version", Version)
+	log.Infoln("Build date:", BuildDate)
 
 	if err := sc.LoadConfig(*configFile); err != nil {
 		log.Errorln("Error loading config", err)

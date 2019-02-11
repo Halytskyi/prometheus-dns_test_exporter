@@ -29,6 +29,9 @@ func (sc *SafeConfig) LoadConfig(confFile string) (err error) {
 	var c = &Config{}
 
 	yamlFile, err := ioutil.ReadFile(confFile)
+	if err != nil {
+		return fmt.Errorf("error reading config file: %s", err)
+	}
 	if err := yaml.UnmarshalStrict(yamlFile, c); err != nil {
 		return fmt.Errorf("Error parsing config file: %s", err)
 	}

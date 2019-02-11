@@ -7,6 +7,7 @@ GODEP_BIN := $(GOPATH)/bin/dep
 GOLINT_BIN := $(GOPATH)/bin/golint
 
 version := $(shell cat VERSION)-$(shell git rev-parse --short HEAD)
+build_date := $(shell date +%FT%T%z)
 
 packages = $$(go list ./... | egrep -v '/vendor/')
 files = $$(find . -name '*.go' | egrep -v '/vendor/')
@@ -27,7 +28,7 @@ version:
 
 build:          ## Build the binary
 build: vendor
-	go build -o $(BINARY_NAME) -ldflags "-X main.Version=$(version)" 
+	go build -o $(BINARY_NAME) -ldflags "-X main.Version=$(version) -X main.BuildDate=$(build_date)"
 
 build-deb:      ## Build DEB package (needs other tools)
 	exec ./build-deb-docker.sh
